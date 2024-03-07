@@ -11,14 +11,20 @@ mongoose
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.error(err));
 
-app.use("/api/products", productRoutes);
-
 app.use(express.json());
+
+app.use("/api/products", productRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.listen(PORT, () => {
-  console.log("listening on port " + PORT);
+app.use((error, req, res, next) => {
+  res.status(500).json({ message: error.message });
 });
+
+// app.listen(PORT, () => {
+//   console.log("listening on port " + PORT);
+// });
+
+module.exports = app;
